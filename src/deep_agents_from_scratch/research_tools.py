@@ -9,6 +9,7 @@ import uuid, base64
 
 import httpx
 from langchain.chat_models import init_chat_model
+from langchain_google_vertexai import ChatVertexAI
 from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import InjectedToolArg, InjectedToolCallId, tool
 from langgraph.prebuilt import InjectedState
@@ -22,7 +23,15 @@ from deep_agents_from_scratch.prompts import SUMMARIZE_WEB_SEARCH
 from deep_agents_from_scratch.state import DeepAgentState
 
 # Summarization model 
-summarization_model = init_chat_model(model="openai:gpt-4o-mini")
+# summarization_model = init_chat_model(model="openai:gpt-4o-mini")
+summarization_model = ChatVertexAI(
+    model="gemini-2.5-flash",
+    temperature=0,
+    max_tokens=None,
+    max_retries=2,
+    stop=None,
+    # other params...
+)
 tavily_client = TavilyClient()
 
 class Summary(BaseModel):
